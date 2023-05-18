@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">FamilyShoppingList</string>
+    <string name="enter_note">Enter note:</string>
+    <string name="low">Low</string>
+    <string name="medium">medium</string>
+    <string name="high">high</string>
+    <string name="save_button">SAVE</string>
+    <string name="undo_button">UNDO</string>
+</resources>
