@@ -1,20 +1,19 @@
 package com.example.familyshoppinglist.presentation.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.familyshoppinglist.data.NoteListRepositoryImpl
-import com.example.familyshoppinglist.domain.usecases.DeleteNoteUseCase
-import com.example.familyshoppinglist.domain.usecases.GetNoteListUseCase
 import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.domain.usecases.AddNoteUseCase
+import com.example.familyshoppinglist.domain.usecases.DeleteNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.EditNoteUseCase
+import com.example.familyshoppinglist.domain.usecases.GetNoteListUseCase
 
 class NotesViewModel(
     private val application: Application,
-    private val argsNote: Note
+    private val argsNote: Note?
 ) : ViewModel() {
 
     private val repository = NoteListRepositoryImpl(application)
@@ -38,13 +37,13 @@ class NotesViewModel(
     val shouldCloseScreen: LiveData<Unit>
         get() = _shouldCloseScreen
 
-    fun addNote(inputText: String, inputPriority: Int, inputDate: String) {
+    fun addNote(inputText: String, inputPriority: Int) {
         val valid = validateInput(inputText)
         if (valid) {
             val note = Note(
                 text = inputText,
                 priority = inputPriority,
-                date = inputDate
+//                date = inputDate
             )
             addNoteUseCase.addNote(
                 note
@@ -61,7 +60,7 @@ class NotesViewModel(
         addNote(
             inputText,
             inputPriority,
-            inputDate
+//            inputDate
         )
     }
     fun changeNoteState(note: Note) {

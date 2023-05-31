@@ -5,23 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.familyshoppinglist.databinding.FragmentNotesBinding
 import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.presentation.adapter.NotesAdapter
 import com.example.familyshoppinglist.presentation.viewmodel.NotesViewModel
 
-
 class NotesFragment : Fragment() {
 
-    private val viewModelFactory: NotesViewModel by lazy {
+    private lateinit var notesAdapter: NotesAdapter
+
+    private val viewModelFactory by lazy {
         NotesViewModelFactory(requireActivity().application, null)
     }
-
-
-
-    private lateinit var notesAdapter: NotesAdapter
-//    private lateinit var viewmodel: NotesViewModel
+    private val viewModel: NotesViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[NotesViewModel::class.java]
+    }
 
     private var _binding: FragmentNotesBinding? = null
     private val binding
@@ -38,10 +38,10 @@ class NotesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-//        viewmodel = ViewModelProvider(this.requireActivity(), viewModelFactory)[NotesViewModel::class.java]
         binding.buttonAddNote.setOnClickListener {
-            launchNotesFragment(Note.EMPTY)
+            launchChangeNoteFragmentForAdd()
         }
+
     }
 
     override fun onDestroyView() {
@@ -49,7 +49,13 @@ class NotesFragment : Fragment() {
         _binding = null
     }
 
-    private fun launchNotesFragment(note: Note) {
+    private fun launchChangeNoteFragmentForAdd() {
+        findNavController().navigate(
+            NotesFragmentDirections.actionNotesFragmentToChangeNoteFragment(null)
+        )
+    }
+
+    private fun launchChangeNoteFragmentForEdit(note: Note) {
         findNavController().navigate(
             NotesFragmentDirections.actionNotesFragmentToChangeNoteFragment(note)
         )
@@ -59,6 +65,7 @@ class NotesFragment : Fragment() {
         notesAdapter = NotesAdapter()
         binding.rvNotes.adapter = notesAdapter
     }
+
 
 
 }

@@ -8,7 +8,7 @@ import com.example.familyshoppinglist.presentation.viewmodel.NotesViewModel
 
 class NotesViewModelFactory(
     private val application: Application,
-    private val argsNote: Note
+    private val argsNote: Note?
 ): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(NotesViewModel::class.java)) {
