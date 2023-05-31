@@ -5,29 +5,24 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.familyshoppinglist.domain.entity.NoteItem
-import io.reactivex.rxjava3.core.Completable
 
 
 @Dao
 interface NotesDao {
 
-    @Query("SELECT * FROM notes ORDER BY priority DESC")
-    fun getNoteList(): LiveData<List<NoteItem>>
+    @Query("SELECT * FROM notes")
+    fun getNotesList(): LiveData<List<NoteItemDbModel>>
 
-    @Query("SELECT * FROM notes WHERE id == :id")
-    fun getNoteItem(id: Int): LiveData<NoteItem>
+    @Query("SELECT * FROM notes WHERE id == :id LIMIT 1")
+    fun getNoteItem(id: Int): NoteItemDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addNote(noteItem: NoteItem): Completable
+    fun addNote(noteItemDbModel: NoteItemDbModel): NoteItemDbModel
 
     @Query("DELETE FROM notes WHERE id == :id")
-    fun deleteNote(id: Int): Completable
+    fun deleteNote(id: Int)
 
     @Query("UPDATE notes SET isDone = :isDone WHERE id == :id")
-    fun isDone(id: Int, isDone: Boolean): Completable
-
-    @Query("UPDATE notes SET text = :text, priority = :priority WHERE id == :id")
-    fun editNote (id: Int, text: String, priority: Int): Completable
+    fun isNoteDone(id: Int, isDone: Boolean)
 
 }

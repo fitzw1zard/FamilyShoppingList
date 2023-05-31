@@ -9,7 +9,7 @@ interface NoteListRepository {
 
     fun editNote (noteItem: NoteItem)
 
-    fun deleteNote (NoteItem: NoteItem)
+    fun deleteNote (noteItem: NoteItem)
 
     fun getNoteItem (id: Int): NoteItem
 

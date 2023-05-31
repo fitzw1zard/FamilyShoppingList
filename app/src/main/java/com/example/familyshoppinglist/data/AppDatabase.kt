@@ -1,5 +1,6 @@
 package com.example.familyshoppinglist.data
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
@@ -7,25 +8,29 @@ import androidx.room.RoomDatabase
 import com.example.familyshoppinglist.domain.entity.NoteItem
 
 @Database(entities = [NoteItem::class], version = 1, exportSchema = false)
-abstract class NotesDatabase: RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
+
+    abstract fun notesDao(): NotesDao
 
     companion object {
-        private var db: NotesDatabase? = null
-        private const val DB_NAME = "noteDatabase"
+        private var db: AppDatabase? = null
+        private const val DB_NAME = "notesDatabase"
         private val LOCK = Any()
 
 
-        fun getInstance(context: Context): NotesDatabase {
+        fun getInstance(application: Application): AppDatabase {
+            db?.let { return it }
             synchronized(LOCK) {
                 db?.let { return it }
-                return Room.databaseBuilder(
-                    context,
-                    NotesDatabase::class.java,
+                val instance = Room.databaseBuilder(
+                    application,
+                    AppDatabase::class.java,
                     DB_NAME
                 ).build()
+                db = instance
+                return instance
             }
         }
     }
 
-    abstract fun notesDao(): NotesDao
 }
