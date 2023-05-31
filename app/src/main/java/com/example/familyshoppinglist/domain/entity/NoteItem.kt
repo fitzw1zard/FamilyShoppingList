@@ -1,4 +1,4 @@
-package com.example.familyshoppinglist.domain
+package com.example.familyshoppinglist.domain.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -9,7 +9,7 @@ data class NoteItem(
     val text: String,
     val date: String,
     val priority: Int,
-    var isDone: Boolean,
+    val isDone: Boolean,
     var id: Int = UNDEFINED_ID,
 ) {
     companion object {

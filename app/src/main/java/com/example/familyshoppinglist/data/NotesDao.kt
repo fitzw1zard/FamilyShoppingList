@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.familyshoppinglist.domain.NoteItem
+import com.example.familyshoppinglist.domain.entity.NoteItem
 import io.reactivex.rxjava3.core.Completable
 
 
