@@ -14,14 +14,5 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel = ViewModelProvider(this)[NotesViewModel::class.java]
-        viewModel.noteList.observe(this) {
-            Log.d("TEST_OF_LOADING", "Success: $it")
-            if (count == 0) {
-                count++
-                val item = it.first()
-                viewModel.changeDoneState(item)
-            }
-        }
     }
 }

@@ -5,14 +5,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ListAdapter
-import com.example.familyshoppinglist.domain.entity.NoteItem
+import com.example.familyshoppinglist.R
+import com.example.familyshoppinglist.databinding.NoteItemBinding
+import com.example.familyshoppinglist.domain.entity.Note
 
-class NotesAdapter : ListAdapter<NoteItem, NotesViewHolder>(NoteItemDiffCallback()) {
+class NotesAdapter : ListAdapter<Note, NotesViewHolder>(NoteItemDiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
-        val binding = DataBindingUtil.inflate<ViewDataBinding>(
-            LayoutInflater.from(parent.context), viewType, parent, false
+         val binding = NoteItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
         return NotesViewHolder(binding)
     }
@@ -21,11 +25,20 @@ class NotesAdapter : ListAdapter<NoteItem, NotesViewHolder>(NoteItemDiffCallback
         val note = getItem(position)
         val binding = holder.binding
 
+
+
+
         if (note.isDone) {
-
+            binding.root.alpha = 0.5f
         } else {
-
+            binding.root.alpha = 1f
         }
+    }
+
+    companion object {
+        const val LOW_PRIORITY = 1
+        const val MEDIUM_PRIORITY = 2
+        const val HIGH_PRIORITY = 3
     }
 
 }

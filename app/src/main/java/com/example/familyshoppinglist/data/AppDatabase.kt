@@ -1,13 +1,12 @@
 package com.example.familyshoppinglist.data
 
 import android.app.Application
-import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.familyshoppinglist.domain.entity.NoteItem
+import com.example.familyshoppinglist.domain.entity.Note
 
-@Database(entities = [NoteItem::class], version = 1, exportSchema = false)
+@Database(entities = [Note::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun notesDao(): NotesDao

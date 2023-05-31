@@ -1,19 +1,19 @@
 package com.example.familyshoppinglist.domain.repository
 
 import androidx.lifecycle.LiveData
-import com.example.familyshoppinglist.domain.entity.NoteItem
+import com.example.familyshoppinglist.domain.entity.Note
 
 interface NoteListRepository {
 
-    fun addNote (noteItem: NoteItem)
+    fun addNote (note: Note)
 
-    fun editNote (noteItem: NoteItem)
+    fun editNote (note: Note)
 
-    fun deleteNote (noteItem: NoteItem)
+    fun deleteNote (note: Note)
 
-    fun getNoteItem (id: Int): NoteItem
+    fun getNoteItem (id: Int): Note
 
-    fun getNoteList (): LiveData<List<NoteItem>>
+    fun getNoteList (): LiveData<List<Note>>
 
 
 }

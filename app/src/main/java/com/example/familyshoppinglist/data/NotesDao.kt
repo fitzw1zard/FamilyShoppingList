@@ -11,13 +11,13 @@ import androidx.room.Query
 interface NotesDao {
 
     @Query("SELECT * FROM notes")
-    fun getNotesList(): LiveData<List<NoteItemDbModel>>
+    fun getNotesList(): LiveData<List<NoteDbModel>>
 
     @Query("SELECT * FROM notes WHERE id == :id LIMIT 1")
-    fun getNoteItem(id: Int): NoteItemDbModel
+    fun getNoteItem(id: Int): NoteDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addNote(noteItemDbModel: NoteItemDbModel): NoteItemDbModel
+    fun addNote(noteDbModel: NoteDbModel): NoteDbModel
 
     @Query("DELETE FROM notes WHERE id == :id")
     fun deleteNote(id: Int)

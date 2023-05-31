@@ -3,11 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/mainActivity">
-
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.familyshoppinglist.MainActivity"
-        android:label="fragment_notes"
-        tools:layout="@layout/fragment_notes" />
+    app:startDestination="@id/notesFragment">
+    <fragment
+        android:id="@+id/notesFragment"
+        android:name="com.example.familyshoppinglist.presentation.view.NotesFragment"
+        android:label="NotesFragment" >
+        <action
+            android:id="@+id/action_notesFragment_to_changeNoteFragment"
+            app:destination="@id/changeNoteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeNoteFragment"
+        android:name="com.example.familyshoppinglist.presentation.view.ChangeNoteFragment"
+        android:label="ChangeNoteFragment" >
+        <argument
+            android:name="note"
+            app:argType="com.example.familyshoppinglist.domain.entity.Note"
+            app:nullable="true" />
+    </fragment>
 </navigation>
