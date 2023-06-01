@@ -24,27 +24,31 @@ class NotesFragment : Fragment() {
     private val binding
         get() = _binding ?: throw IllegalStateException("FragmentNotesBinding is null")
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNotesBinding.inflate(inflater, container, false)
+        setupRecyclerView()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
         binding.buttonAddNote.setOnClickListener {
             launchChangeNoteFragmentForAdd()
         }
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun setupRecyclerView() {
+        with(binding.rvNotes) {
+            notesAdapter = NotesAdapter()
+            adapter = notesAdapter
+        }
     }
+
 
     private fun launchChangeNoteFragmentForAdd() {
         findNavController().navigate(
@@ -58,11 +62,10 @@ class NotesFragment : Fragment() {
         )
     }
 
-    private fun setupRecyclerView() {
-        notesAdapter = NotesAdapter()
-        binding.rvNotes.adapter = notesAdapter
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
-
-
 
 }

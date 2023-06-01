@@ -2,14 +2,12 @@ package com.example.familyshoppinglist.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ListAdapter
-import com.example.familyshoppinglist.R
+import androidx.recyclerview.widget.RecyclerView
 import com.example.familyshoppinglist.databinding.NoteItemBinding
 import com.example.familyshoppinglist.domain.entity.Note
 
-class NotesAdapter : ListAdapter<Note, NotesViewHolder>(NoteItemDiffCallback()) {
+class NotesAdapter : ListAdapter<Note, NotesAdapter.NotesViewHolder>(NoteDiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
@@ -23,16 +21,18 @@ class NotesAdapter : ListAdapter<Note, NotesViewHolder>(NoteItemDiffCallback()) 
 
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val note = getItem(position)
-        val binding = holder.binding
-
-
-
-
+        holder.tvNote.text = note.text
         if (note.isDone) {
-            binding.root.alpha = 0.5f
+            holder.cvNote.alpha = 0.5f
         } else {
-            binding.root.alpha = 1f
+            holder.cvNote.alpha = 1f
         }
+    }
+
+    inner class NotesViewHolder(binding: NoteItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        val tvNote = binding.tvNote
+        val cvNote = binding.cvNote
     }
 
 }
