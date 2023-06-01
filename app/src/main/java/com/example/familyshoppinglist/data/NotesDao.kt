@@ -14,15 +14,15 @@ interface NotesDao {
     fun getNotesList(): LiveData<List<NoteDbModel>>
 
     @Query("SELECT * FROM notes WHERE id == :id LIMIT 1")
-    fun getNoteItem(id: Int): NoteDbModel
+    suspend fun getNoteItem(id: Int): NoteDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addNote(noteDbModel: NoteDbModel): NoteDbModel
+    suspend fun addNote(noteDbModel: NoteDbModel): NoteDbModel
 
     @Query("DELETE FROM notes WHERE id == :id")
-    fun deleteNote(id: Int)
+    suspend fun deleteNote(id: Int)
 
     @Query("UPDATE notes SET isDone = :isDone WHERE id == :id")
-    fun isNoteDone(id: Int, isDone: Boolean)
+    suspend fun isNoteDone(id: Int, isDone: Boolean)
 
 }

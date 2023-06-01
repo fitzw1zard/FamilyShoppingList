@@ -4,7 +4,7 @@ import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.domain.repository.NoteListRepository
 
 class DeleteNoteUseCase(private val noteListRepository: NoteListRepository) {
-    fun deleteNote (Note: Note) {
+    suspend fun deleteNote (Note: Note) {
         noteListRepository.deleteNote(Note)
     }
 }

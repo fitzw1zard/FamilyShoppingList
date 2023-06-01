@@ -4,7 +4,7 @@ import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.domain.repository.NoteListRepository
 
 class AddNoteUseCase(private val noteListRepository: NoteListRepository) {
-        fun addNote (note: Note) {
+       suspend fun addNote (note: Note) {
             noteListRepository.addNote (note)
         }
 }

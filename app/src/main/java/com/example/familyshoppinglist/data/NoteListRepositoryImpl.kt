@@ -11,19 +11,19 @@ class NoteListRepositoryImpl(application: Application) : NoteListRepository {
     private val notesDao = AppDatabase.getInstance(application).notesDao()
     private val mapper = NotesMapper()
 
-    override fun addNote(note: Note) {
+    override suspend fun addNote(note: Note) {
         notesDao.addNote(mapper.mapEntityToDbModel(note))
     }
 
-    override fun editNote(note: Note) {
+    override suspend fun editNote(note: Note) {
         notesDao.addNote(mapper.mapEntityToDbModel(note))
     }
 
-    override fun deleteNote(note: Note) {
+    override suspend fun deleteNote(note: Note) {
         notesDao.deleteNote(note.id)
     }
 
-    override fun getNoteItem(id: Int): Note =
+    override suspend fun getNoteItem(id: Int): Note =
         mapper.mapDbModelToEntity(notesDao.getNoteItem(id))
 
 

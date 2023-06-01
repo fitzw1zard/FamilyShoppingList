@@ -10,6 +10,10 @@ import com.example.familyshoppinglist.domain.usecases.AddNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.DeleteNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.EditNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.GetNoteListUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 class NotesViewModel(
     private val application: Application,
@@ -23,16 +27,16 @@ class NotesViewModel(
     private val addNoteUseCase = AddNoteUseCase(repository)
     private val editNoteUseCase = EditNoteUseCase(repository)
 
+    private val scope = CoroutineScope(Dispatchers.IO)
+
     val noteList = getNoteListUseCase.getNoteList()
 
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean>
         get() = _errorInputName
-
-    private val _note = MutableLiveData<Note>()
-    val note: LiveData<Note>
+    private val _note = MutableLiveData<Note?>()
+    val notes: LiveData<Note?>
         get() = _note
-
     private val _shouldCloseScreen = MutableLiveData<Unit>()
     val shouldCloseScreen: LiveData<Unit>
         get() = _shouldCloseScreen
@@ -45,9 +49,9 @@ class NotesViewModel(
                 priority = inputPriority,
 //                date = inputDate
             )
-            addNoteUseCase.addNote(
-                note
-            )
+            scope.launch {
+                addNoteUseCase.addNote(note)
+            }
             finishWork()
         }
     }
@@ -63,13 +67,18 @@ class NotesViewModel(
 //            inputDate
         )
     }
+
     fun changeNoteState(note: Note) {
-        note.isDone = note.isDone.not()
-        editNoteUseCase.editNote(note)
+       scope.launch {
+           note.isDone = note.isDone.not()
+           editNoteUseCase.editNote(note)
+       }
     }
 
     fun deleteNote(note: Note) {
-        deleteNoteUseCase.deleteNote(note)
+        scope.launch {
+            deleteNoteUseCase.deleteNote(note)
+        }
     }
 
     fun resetErrorInputName() {
@@ -89,4 +98,14 @@ class NotesViewModel(
         _shouldCloseScreen.value = Unit
     }
 
+    init {
+        if (argsNote != null) {
+            _note.value = argsNote
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        scope.cancel()
+    }
 }
