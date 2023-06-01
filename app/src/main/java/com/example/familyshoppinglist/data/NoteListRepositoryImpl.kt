@@ -23,8 +23,8 @@ class NoteListRepositoryImpl(application: Application) : NoteListRepository {
         notesDao.deleteNote(note.id)
     }
 
-    override suspend fun getNoteItem(id: Int): Note =
-        mapper.mapDbModelToEntity(notesDao.getNoteItem(id))
+    override suspend fun getNote(id: Int): Note =
+        mapper.mapDbModelToEntity(notesDao.getNote(id))
 
 
     override fun getNoteList(): LiveData<List<Note>> =

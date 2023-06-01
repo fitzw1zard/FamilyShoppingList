@@ -8,8 +8,10 @@ import com.example.familyshoppinglist.data.NoteListRepositoryImpl
 import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.domain.usecases.AddNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.EditNoteUseCase
+import com.example.familyshoppinglist.domain.usecases.GetNoteUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class ChangeNoteViewModel (
@@ -21,6 +23,7 @@ class ChangeNoteViewModel (
 
     private val addNoteUseCase = AddNoteUseCase(repository)
     private val editNoteUseCase = EditNoteUseCase(repository)
+    private val getNoteUseCase = GetNoteUseCase(repository)
 
     private val scope = CoroutineScope(Dispatchers.IO)
 
@@ -43,15 +46,23 @@ class ChangeNoteViewModel (
     fun addNote(inputText: String, inputPriority: Int) {
         val valid = validateInput(inputText)
         if (valid) {
+            scope.launch {
             val note = Note(
                 text = inputText,
                 priority = inputPriority,
 //                date = inputDate
             )
-            scope.launch {
+
                 addNoteUseCase.addNote(note)
             }
             finishWork()
+        }
+    }
+
+    fun getNote(noteId: Int) {
+        scope.launch {
+            val note = getNoteUseCase.getNote(noteId)
+            _note.postValue(note)
         }
     }
 
@@ -84,6 +95,8 @@ class ChangeNoteViewModel (
         _shouldCloseScreen.value = Unit
     }
 
-
-
+    override fun onCleared() {
+        super.onCleared()
+        scope.cancel()
+    }
 }

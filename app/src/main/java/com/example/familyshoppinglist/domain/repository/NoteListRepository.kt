@@ -11,7 +11,7 @@ interface NoteListRepository {
 
     suspend fun deleteNote (note: Note)
 
-    suspend fun getNoteItem (id: Int): Note
+    suspend fun getNote (id: Int): Note
 
     fun getNoteList (): LiveData<List<Note>>
 
