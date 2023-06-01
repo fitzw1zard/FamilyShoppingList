@@ -35,26 +35,30 @@ class NotesAdapter(
                 onShopItemLongClickListener?.invoke(note)
                 true
             }
+            tvNote.text = note.text
 
             when (note.priority) {
-                LOW_PRIORITY -> {
+                LOW_PRIORITY -> if (note.isDone) {
+                    cvNote.setCardBackgroundColor(context.getColor(R.color.low_priority_done))
+                    cvNote.cardElevation = 0f
+                } else {
                     cvNote.setCardBackgroundColor(context.getColor(R.color.low_priority))
                 }
 
-                MEDIUM_PRIORITY -> {
+
+                MEDIUM_PRIORITY -> if (note.isDone) {
+                    cvNote.setCardBackgroundColor(context.getColor(R.color.medium_priority_done))
+                    cvNote.cardElevation = 0f
+                } else {
                     cvNote.setCardBackgroundColor(context.getColor(R.color.medium_priority))
                 }
 
-                HIGH_PRIORITY -> {
+
+                HIGH_PRIORITY -> if (note.isDone) {
+                    cvNote.setCardBackgroundColor(context.getColor(R.color.high_priority_done))
+                    cvNote.cardElevation = 0f
+                } else {
                     cvNote.setCardBackgroundColor(context.getColor(R.color.high_priority))
-                }
-            }
-            when (note.isDone) {
-                true -> {
-                    cvNote.alpha = 0.5f
-                }
-                false -> {
-                    cvNote.alpha = 1f
                 }
             }
         }
@@ -62,5 +66,8 @@ class NotesAdapter(
 
     inner class NotesViewHolder(val binding: NoteItemBinding) :
         RecyclerView.ViewHolder(binding.root)
-
 }
+
+
+
+

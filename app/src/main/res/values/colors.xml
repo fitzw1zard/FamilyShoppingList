@@ -5,4 +5,7 @@
     <color name="low_priority">#84C833</color>
     <color name="medium_priority">#cf9c11</color>
     <color name="high_priority">#b84018</color>
+    <color name="low_priority_done">#8084C833</color>
+    <color name="medium_priority_done">#80cf9c11</color>
+    <color name="high_priority_done">#80b84018</color>
 </resources>
