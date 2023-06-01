@@ -35,6 +35,7 @@ class NotesAdapter(
                 onShopItemLongClickListener?.invoke(note)
                 true
             }
+
             when (note.priority) {
                 LOW_PRIORITY -> {
                     cvNote.setCardBackgroundColor(context.getColor(R.color.low_priority))
@@ -48,11 +49,13 @@ class NotesAdapter(
                     cvNote.setCardBackgroundColor(context.getColor(R.color.high_priority))
                 }
             }
-            tvNote.text = note.text
-            if (note.isDone) {
-                cvNote.alpha = 0.5f
-            } else {
-                cvNote.alpha = 1f
+            when (note.isDone) {
+                true -> {
+                    cvNote.alpha = 0.5f
+                }
+                false -> {
+                    cvNote.alpha = 1f
+                }
             }
         }
     }

@@ -52,6 +52,7 @@ class NotesFragment : Fragment() {
             notesAdapter = NotesAdapter(requireContext())
             adapter = notesAdapter
         }
+        setupLongClickListener()
         setupSwipeListener(binding.rvNotes)
     }
 
@@ -103,6 +104,11 @@ class NotesFragment : Fragment() {
         )
     }
 
+    private fun setupLongClickListener() {
+        notesAdapter.onShopItemLongClickListener = {
+            viewModel.changeNoteState(it)
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
