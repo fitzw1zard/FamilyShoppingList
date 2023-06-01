@@ -20,18 +20,16 @@ class NotesAdapter : ListAdapter<Note, NotesAdapter.NotesViewHolder>(NoteDiffCal
 
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val note = getItem(position)
-        holder.tvNote.text = note.text
+        val binding = holder.binding
+        binding.tvNote.text = note.text
         if (note.isDone) {
-            holder.cvNote.alpha = 0.5f
+           binding.cvNote.alpha = 0.5f
         } else {
-            holder.cvNote.alpha = 1f
+            binding.cvNote.alpha = 1f
         }
     }
 
-    inner class NotesViewHolder(binding: NoteItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        val tvNote = binding.tvNote
-        val cvNote = binding.cvNote
-    }
+    inner class NotesViewHolder(val binding: NoteItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
 }

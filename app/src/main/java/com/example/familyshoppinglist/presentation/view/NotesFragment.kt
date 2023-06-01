@@ -30,13 +30,19 @@ class NotesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNotesBinding.inflate(inflater, container, false)
-
+        with(binding.rvNotes) {
+            notesAdapter = NotesAdapter()
+            adapter = notesAdapter
+        }
+        viewModel.noteList.observe(viewLifecycleOwner) {
+            notesAdapter.submitList(it)
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
+
         binding.buttonAddNote.setOnClickListener {
             launchChangeNoteFragmentForAdd()
         }
@@ -44,10 +50,7 @@ class NotesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        with(binding.rvNotes) {
-            notesAdapter = NotesAdapter()
-            adapter = notesAdapter
-        }
+
     }
 
 
