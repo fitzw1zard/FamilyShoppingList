@@ -34,11 +34,12 @@ class ChangeNoteViewModel(application: Application) : AndroidViewModel(applicati
         get() = _shouldCloseScreen
 
 
-    fun addNote(inputText: String, inputPriority: Int) {
+    fun saveNote(inputId: Int, inputText: String, inputPriority: Int) {
         val valid = validateInput(inputText)
         if (valid) {
             scope.launch {
                 val note = Note(
+                    id = inputId,
                     text = inputText,
                     priority = inputPriority,
 //                date = inputDate
@@ -50,23 +51,6 @@ class ChangeNoteViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    fun editNote(id: Int, inputText: String, inputPriority: Int) {
-        val valid = validateInput(inputText)
-        if (valid) {
-                scope.launch {
-                    val note = Note(
-                        id = id,
-                        text = inputText,
-                        priority = inputPriority,
-//                date = inputDate
-                    )
-                    editNoteUseCase.editNote(note)
-                    finishWork()
-                }
-
-
-        }
-    }
 
     fun getNote(noteId: Int) {
         scope.launch {

@@ -44,34 +44,16 @@ class ChangeNoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addTextChangeListeners()
-        launchRightMode()
+        launchSaveMode()
         setupClickListeners()
         observeViewModel()
         editedNoteStatus()
 
     }
 
-   private fun launchRightMode() {
-        if (argsNote.note == null) {
-            launchAddMode()
-        } else {
-            launchEditMode()
-        }
-    }
-
-    private fun launchAddMode() {
+    private fun launchSaveMode() {
         binding.buttonSave.setOnClickListener {
-            viewModel.addNote(
-                binding.etText.text.toString(),
-                getPriority()
-            )
-        }
-    }
-
-    private fun launchEditMode() {
-
-        binding.buttonSave.setOnClickListener {
-            viewModel.editNote(
+            viewModel.saveNote(
                 argsNote.note?.id ?: 0,
                 binding.etText.text.toString(),
                 getPriority()
