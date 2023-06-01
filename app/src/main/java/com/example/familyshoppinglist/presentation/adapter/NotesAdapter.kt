@@ -9,9 +9,8 @@ import com.example.familyshoppinglist.domain.entity.Note
 
 class NotesAdapter : ListAdapter<Note, NotesAdapter.NotesViewHolder>(NoteDiffCallback()) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
-         val binding = NoteItemBinding.inflate(
+        val binding = NoteItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
