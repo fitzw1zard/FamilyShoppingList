@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.familyshoppinglist.R
 import com.example.familyshoppinglist.databinding.FragmentChangeNoteBinding
 import com.example.familyshoppinglist.presentation.viewmodel.ChangeNoteViewModel
 import com.example.familyshoppinglist.utils.ERROR_PRIORITY
@@ -22,7 +24,6 @@ class ChangeNoteFragment : Fragment() {
     private val argsNote by navArgs<ChangeNoteFragmentArgs>()
 
     private var _binding: FragmentChangeNoteBinding? = null
-
 
     private val viewModel: ChangeNoteViewModel by lazy {
         ViewModelProvider(this)[ChangeNoteViewModel::class.java]
@@ -44,26 +45,44 @@ class ChangeNoteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         addTextChangeListeners()
+        setupClickListeners()
+        observeViewModel()
 
-        with(binding) {
-            buttonSave.setOnClickListener {
-                viewModel.addNote(
-                    etText.text.toString(),
-                    getPriority()
-                    )
-            }
+    }
+
+    private fun getPriority(): Int {
+        return when (binding.radioGroupPriority.checkedRadioButtonId) {
+            binding.rbLow.id -> LOW_PRIORITY
+            binding.rbMedium.id -> MEDIUM_PRIORITY
+            binding.rbHigh.id -> HIGH_PRIORITY
+            else -> ERROR_PRIORITY
+        }
+    }
+
+    private fun setupClickListeners() {
+        binding.buttonSave.setOnClickListener {
+            viewModel.addNote(
+                binding.etText.text.toString(),
+                getPriority()
+            )
+        }
+        binding.buttonUndo.setOnClickListener {
+            closeScreen()
         }
 
     }
 
- private fun getPriority(): Int {
-     return when (binding.radioGroupPriority.checkedRadioButtonId) {
-         binding.rbLow.id -> LOW_PRIORITY
-         binding.rbMedium.id -> MEDIUM_PRIORITY
-         binding.rbHigh.id -> HIGH_PRIORITY
-         else -> ERROR_PRIORITY
-     }
- }
+    private fun observeViewModel() {
+        viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
+            closeScreen()
+        }
+        viewModel.errorInputName.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.tilText.error = getString(R.string.error_empty_note)
+            }
+        }
+    }
+
 
     private fun addTextChangeListeners() {
         binding.etText.addTextChangedListener(object : TextWatcher {
@@ -77,6 +96,10 @@ class ChangeNoteFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
             }
         })
+    }
+
+    private fun closeScreen() {
+        findNavController().popBackStack()
     }
 
     override fun onDestroyView() {

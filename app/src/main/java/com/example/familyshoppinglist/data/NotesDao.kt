@@ -17,7 +17,7 @@ interface NotesDao {
     suspend fun getNote(id: Int): NoteDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addNote(noteDbModel: NoteDbModel): NoteDbModel
+    suspend fun addNote(noteDbModel: NoteDbModel)
 
     @Query("DELETE FROM notes WHERE id == :id")
     suspend fun deleteNote(id: Int)

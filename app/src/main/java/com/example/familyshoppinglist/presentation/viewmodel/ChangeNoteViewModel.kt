@@ -1,6 +1,7 @@
 package com.example.familyshoppinglist.presentation.viewmodel
 
 import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,10 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-class ChangeNoteViewModel (
-    private val application: Application,
-    private val argsNote: Note?
-) : ViewModel() {
+class ChangeNoteViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = NoteListRepositoryImpl(application)
 
@@ -37,25 +35,20 @@ class ChangeNoteViewModel (
     val shouldCloseScreen: LiveData<Unit>
         get() = _shouldCloseScreen
 
-    init {
-        if (argsNote != null) {
-            _note.value = argsNote
-        }
-    }
 
     fun addNote(inputText: String, inputPriority: Int) {
         val valid = validateInput(inputText)
         if (valid) {
             scope.launch {
-            val note = Note(
-                text = inputText,
-                priority = inputPriority,
+                val note = Note(
+                    text = inputText,
+                    priority = inputPriority,
 //                date = inputDate
-            )
-
+                )
                 addNoteUseCase.addNote(note)
+                finishWork()
             }
-            finishWork()
+
         }
     }
 
@@ -92,7 +85,7 @@ class ChangeNoteViewModel (
     }
 
     private fun finishWork() {
-        _shouldCloseScreen.value = Unit
+        _shouldCloseScreen.postValue(Unit)
     }
 
     override fun onCleared() {

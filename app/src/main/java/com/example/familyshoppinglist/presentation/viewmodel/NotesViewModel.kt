@@ -1,6 +1,7 @@
 package com.example.familyshoppinglist.presentation.viewmodel
 
 import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import com.example.familyshoppinglist.data.NoteListRepositoryImpl
 import com.example.familyshoppinglist.domain.entity.Note
@@ -12,9 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-class NotesViewModel(
-    private val application: Application,
-) : ViewModel() {
+class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = NoteListRepositoryImpl(application)
 
