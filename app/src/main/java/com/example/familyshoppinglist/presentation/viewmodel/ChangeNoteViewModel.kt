@@ -28,9 +28,7 @@ class ChangeNoteViewModel(application: Application) : AndroidViewModel(applicati
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean>
         get() = _errorInputName
-    private val _note = MutableLiveData<Note?>()
-    val notes: LiveData<Note?>
-        get() = _note
+
     private val _shouldCloseScreen = MutableLiveData<Unit>()
     val shouldCloseScreen: LiveData<Unit>
         get() = _shouldCloseScreen
@@ -52,23 +50,28 @@ class ChangeNoteViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    fun getNote(noteId: Int) {
-        scope.launch {
-            val note = getNoteUseCase.getNote(noteId)
-            _note.postValue(note)
+    fun editNote(id: Int, inputText: String, inputPriority: Int) {
+        val valid = validateInput(inputText)
+        if (valid) {
+                scope.launch {
+                    val note = Note(
+                        id = id,
+                        text = inputText,
+                        priority = inputPriority,
+//                date = inputDate
+                    )
+                    editNoteUseCase.editNote(note)
+                    finishWork()
+                }
+
+
         }
     }
 
-    fun editNote(
-        inputText: String,
-        inputPriority: Int,
-        inputDate: String
-    ) {
-        addNote(
-            inputText,
-            inputPriority,
-//            inputDate
-        )
+    fun getNote(noteId: Int) {
+        scope.launch {
+            getNoteUseCase.getNote(noteId)
+        }
     }
 
     fun resetErrorInputName() {

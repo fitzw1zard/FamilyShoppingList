@@ -1,14 +1,22 @@
 package com.example.familyshoppinglist.presentation.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.familyshoppinglist.R
 import com.example.familyshoppinglist.databinding.NoteItemBinding
 import com.example.familyshoppinglist.domain.entity.Note
+import com.example.familyshoppinglist.utils.HIGH_PRIORITY
+import com.example.familyshoppinglist.utils.LOW_PRIORITY
+import com.example.familyshoppinglist.utils.MEDIUM_PRIORITY
 
-class NotesAdapter : ListAdapter<Note, NotesAdapter.NotesViewHolder>(NoteDiffCallback()) {
+class NotesAdapter(
+    private val context: Context
+) : ListAdapter<Note, NotesAdapter.NotesViewHolder>(NoteDiffCallback()) {
 
+    var onShopItemLongClickListener: ((Note) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
         val binding = NoteItemBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -21,11 +29,31 @@ class NotesAdapter : ListAdapter<Note, NotesAdapter.NotesViewHolder>(NoteDiffCal
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val note = getItem(position)
         val binding = holder.binding
-        binding.tvNote.text = note.text
-        if (note.isDone) {
-           binding.cvNote.alpha = 0.5f
-        } else {
-            binding.cvNote.alpha = 1f
+
+        with(binding) {
+            root.setOnLongClickListener {
+                onShopItemLongClickListener?.invoke(note)
+                true
+            }
+            when (note.priority) {
+                LOW_PRIORITY -> {
+                    cvNote.setCardBackgroundColor(context.getColor(R.color.low_priority))
+                }
+
+                MEDIUM_PRIORITY -> {
+                    cvNote.setCardBackgroundColor(context.getColor(R.color.medium_priority))
+                }
+
+                HIGH_PRIORITY -> {
+                    cvNote.setCardBackgroundColor(context.getColor(R.color.high_priority))
+                }
+            }
+            tvNote.text = note.text
+            if (note.isDone) {
+                cvNote.alpha = 0.5f
+            } else {
+                cvNote.alpha = 1f
+            }
         }
     }
 

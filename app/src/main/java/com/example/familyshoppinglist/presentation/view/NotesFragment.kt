@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.familyshoppinglist.databinding.FragmentNotesBinding
 import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.presentation.adapter.NotesAdapter
@@ -30,19 +32,12 @@ class NotesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNotesBinding.inflate(inflater, container, false)
-        with(binding.rvNotes) {
-            notesAdapter = NotesAdapter()
-            adapter = notesAdapter
-        }
-        viewModel.noteList.observe(viewLifecycleOwner) {
-            notesAdapter.submitList(it)
-        }
+        setupRecyclerView()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.buttonAddNote.setOnClickListener {
             launchChangeNoteFragmentForAdd()
         }
@@ -50,7 +45,49 @@ class NotesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
+        viewModel.noteList.observe(viewLifecycleOwner) {
+            notesAdapter.submitList(it)
+        }
+        with(binding.rvNotes) {
+            notesAdapter = NotesAdapter(requireContext())
+            adapter = notesAdapter
+        }
+        setupSwipeListener(binding.rvNotes)
+    }
 
+    private fun setupSwipeListener(rvNotes: RecyclerView) {
+        val callback = object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+
+            override fun onMove(
+                rvNotes: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(
+                viewHolder: RecyclerView.ViewHolder,
+                direction: Int
+            ) {
+                val note = notesAdapter.currentList[viewHolder.adapterPosition]
+                when (direction) {
+
+                    ItemTouchHelper.RIGHT -> {
+                        launchChangeNoteFragmentForEdit(note)
+                    }
+
+                    ItemTouchHelper.LEFT -> {
+                        viewModel.deleteNote(note)
+                    }
+                }
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(rvNotes)
     }
 
 

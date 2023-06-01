@@ -44,9 +44,50 @@ class ChangeNoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addTextChangeListeners()
+        launchRightMode()
         setupClickListeners()
         observeViewModel()
+        editedNoteStatus()
 
+    }
+
+   private fun launchRightMode() {
+        if (argsNote.note == null) {
+            launchAddMode()
+        } else {
+            launchEditMode()
+        }
+    }
+
+    private fun launchAddMode() {
+        binding.buttonSave.setOnClickListener {
+            viewModel.addNote(
+                binding.etText.text.toString(),
+                getPriority()
+            )
+        }
+    }
+
+    private fun launchEditMode() {
+
+        binding.buttonSave.setOnClickListener {
+            viewModel.editNote(
+                argsNote.note?.id ?: 0,
+                binding.etText.text.toString(),
+                getPriority()
+            )
+        }
+    }
+
+
+    private fun editedNoteStatus() {
+        val editedNote = argsNote.note
+        binding.etText.setText(editedNote?.text)
+        when (editedNote?.priority) {
+            LOW_PRIORITY -> binding.rbLow.isChecked = true
+            MEDIUM_PRIORITY -> binding.rbMedium.isChecked = true
+            HIGH_PRIORITY -> binding.rbHigh.isChecked = true
+        }
     }
 
     private fun getPriority(): Int {
@@ -59,12 +100,6 @@ class ChangeNoteFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        binding.buttonSave.setOnClickListener {
-            viewModel.addNote(
-                binding.etText.text.toString(),
-                getPriority()
-            )
-        }
         binding.buttonUndo.setOnClickListener {
             closeScreen()
         }
