@@ -16,11 +16,8 @@ class NotesFragment : Fragment() {
 
     private lateinit var notesAdapter: NotesAdapter
 
-    private val viewModelFactory by lazy {
-        NotesViewModelFactory(requireActivity().application, null)
-    }
     private val viewModel: NotesViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[NotesViewModel::class.java]
+        ViewModelProvider(this)[NotesViewModel::class.java]
     }
 
     private var _binding: FragmentNotesBinding? = null
