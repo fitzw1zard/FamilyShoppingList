@@ -23,8 +23,8 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
     fun changeNoteState(note: Note) {
         viewModelScope.launch {
-          val newNote = note.copy(isDone = note.isDone.not())
-           editNoteUseCase.editNote(newNote)
+          val changedNote = note.copy(isDone = note.isDone.not())
+           editNoteUseCase.editNote(changedNote)
        }
     }
 
