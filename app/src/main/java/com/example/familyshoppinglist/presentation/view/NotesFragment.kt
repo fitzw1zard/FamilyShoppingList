@@ -32,12 +32,13 @@ class NotesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNotesBinding.inflate(inflater, container, false)
-        setupRecyclerView()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
         binding.buttonAddNote.setOnClickListener {
             launchChangeNoteFragmentForAdd()
         }

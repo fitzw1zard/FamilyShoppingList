@@ -1,6 +1,7 @@
 package com.example.familyshoppinglist.presentation.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -29,7 +30,7 @@ class NotesAdapter(
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val note = getItem(position)
         val binding = holder.binding
-
+        Log.d("NotesAdapter", "onBindViewHolder")
         with(binding) {
             root.setOnLongClickListener {
                 onShopItemLongClickListener?.invoke(note)
@@ -41,25 +42,56 @@ class NotesAdapter(
                 LOW_PRIORITY -> if (note.isDone) {
                     cvNote.setCardBackgroundColor(context.getColor(R.color.low_priority_done))
                     cvNote.cardElevation = 0f
+                    Log.d(
+                        "NotesAdapter",
+                        "color: ${context.getColor(R.color.low_priority_done)}"
+                                + "priority: ${note.priority}"
+                    )
                 } else {
                     cvNote.setCardBackgroundColor(context.getColor(R.color.low_priority))
+                    cvNote.cardElevation = 4f
+                    Log.d(
+                        "NotesAdapter",
+                        "color: ${context.getColor(R.color.low_priority_done)}"
+                                + "priority: ${note.priority}"
+                    )
                 }
-
-
                 MEDIUM_PRIORITY -> if (note.isDone) {
                     cvNote.setCardBackgroundColor(context.getColor(R.color.medium_priority_done))
                     cvNote.cardElevation = 0f
+                    Log.d(
+                        "NotesAdapter",
+                        "color: ${context.getColor(R.color.low_priority_done)}"
+                                + "priority: ${note.priority}"
+                    )
                 } else {
                     cvNote.setCardBackgroundColor(context.getColor(R.color.medium_priority))
+                    cvNote.cardElevation = 4f
+                    Log.d(
+                        "NotesAdapter",
+                        "color: ${context.getColor(R.color.low_priority_done)}"
+                                + "priority: ${note.priority}"
+                    )
                 }
-
-
                 HIGH_PRIORITY -> if (note.isDone) {
                     cvNote.setCardBackgroundColor(context.getColor(R.color.high_priority_done))
                     cvNote.cardElevation = 0f
+                    Log.d(
+                        "NotesAdapter",
+                        "color: ${context.getColor(R.color.low_priority_done)}"
+                                + "priority: ${note.priority}"
+                    )
                 } else {
                     cvNote.setCardBackgroundColor(context.getColor(R.color.high_priority))
+                    cvNote.cardElevation = 4f
+                    Log.d(
+                        "NotesAdapter",
+                        "color: ${context.getColor(R.color.low_priority_done)}"
+                                + "priority: ${note.priority}"
+                    )
                 }
+
+                else -> throw RuntimeException("Unknown priority : ${note.priority}")
             }
         }
     }
