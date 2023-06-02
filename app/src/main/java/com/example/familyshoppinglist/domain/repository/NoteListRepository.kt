@@ -13,7 +13,7 @@ interface NoteListRepository {
 
     suspend fun getNote (id: Int): Note
 
-    fun getNoteList (): LiveData<List<Note>>
+    fun getNotes (): LiveData<List<Note>>
 
 
 }

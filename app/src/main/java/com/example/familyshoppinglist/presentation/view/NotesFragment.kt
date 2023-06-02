@@ -39,22 +39,120 @@ class NotesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        observeViewModel()
         binding.buttonAddNote.setOnClickListener {
             launchChangeNoteFragmentForAdd()
         }
 
     }
 
-    private fun setupRecyclerView() {
-        viewModel.noteList.observe(viewLifecycleOwner) {
+    private fun observeViewModel() {
+        viewModel.notes.observeForever {
             notesAdapter.submitList(it)
         }
+    }
+    private fun setupRecyclerView() {
         with(binding.rvNotes) {
             notesAdapter = NotesAdapter(requireContext())
             adapter = notesAdapter
         }
         setupLongClickListener()
         setupSwipeListener(binding.rvNotes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     private fun setupSwipeListener(rvNotes: RecyclerView) {
@@ -106,7 +204,7 @@ class NotesFragment : Fragment() {
     }
 
     private fun setupLongClickListener() {
-        notesAdapter.onShopItemLongClickListener = {
+        notesAdapter.onNoteLongClickListener = {
             viewModel.changeNoteState(it)
         }
     }

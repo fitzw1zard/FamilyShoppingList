@@ -56,7 +56,8 @@ class ChangeNoteFragment : Fragment() {
             viewModel.saveNote(
                 argsNote.note?.id ?: 0,
                 binding.etText.text.toString(),
-                getPriority()
+                getPriority(),
+                false
             )
         }
     }

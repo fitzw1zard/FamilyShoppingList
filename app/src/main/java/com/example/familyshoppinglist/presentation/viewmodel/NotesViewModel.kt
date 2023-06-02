@@ -2,15 +2,12 @@ package com.example.familyshoppinglist.presentation.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.familyshoppinglist.data.NoteListRepositoryImpl
 import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.domain.usecases.DeleteNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.EditNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.GetNoteListUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class NotesViewModel(application: Application) : AndroidViewModel(application) {
@@ -21,26 +18,20 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
     private val deleteNoteUseCase = DeleteNoteUseCase(repository)
     private val editNoteUseCase = EditNoteUseCase(repository)
 
-    private val scope = CoroutineScope(Dispatchers.IO)
-
-    val noteList = getNoteListUseCase.getNoteList()
+    val notes = getNoteListUseCase.getNoteList()
 
 
     fun changeNoteState(note: Note) {
-       scope.launch {
-           note.isDone = note.isDone.not()
-           editNoteUseCase.editNote(note)
+        viewModelScope.launch {
+          val newNote = note.copy(isDone = note.isDone.not())
+           editNoteUseCase.editNote(newNote)
        }
     }
 
     fun deleteNote(note: Note) {
-        scope.launch {
+        viewModelScope.launch {
             deleteNoteUseCase.deleteNote(note)
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        scope.cancel()
-    }
 }

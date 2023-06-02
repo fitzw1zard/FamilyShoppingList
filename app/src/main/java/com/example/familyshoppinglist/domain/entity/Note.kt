@@ -9,7 +9,7 @@ data class Note(
     val text: String,
     val date: String = UNDEFINED_DATE,
     val priority: Int,
-    var isDone: Boolean = false
+    val isDone: Boolean
 ) : Parcelable {
     companion object {
         const val UNDEFINED_ID = 0

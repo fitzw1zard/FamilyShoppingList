@@ -3,6 +3,7 @@ package com.example.familyshoppinglist.data
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+
 import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.domain.repository.NoteListRepository
 
@@ -27,7 +28,8 @@ class NoteListRepositoryImpl(application: Application) : NoteListRepository {
         mapper.mapDbModelToEntity(notesDao.getNote(id))
 
 
-    override fun getNoteList(): LiveData<List<Note>> =
+
+    override fun getNotes(): LiveData<List<Note>> =
         MediatorLiveData<List<Note>>().apply {
             addSource(notesDao.getNotesList()) {
                 value = mapper.mapDbModelListToEntityList(it)

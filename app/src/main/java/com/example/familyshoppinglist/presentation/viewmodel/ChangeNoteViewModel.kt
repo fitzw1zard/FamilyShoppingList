@@ -4,15 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.familyshoppinglist.data.NoteListRepositoryImpl
 import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.domain.usecases.AddNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.EditNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.GetNoteUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class ChangeNoteViewModel(application: Application) : AndroidViewModel(application) {
@@ -23,8 +20,6 @@ class ChangeNoteViewModel(application: Application) : AndroidViewModel(applicati
     private val editNoteUseCase = EditNoteUseCase(repository)
     private val getNoteUseCase = GetNoteUseCase(repository)
 
-    private val scope = CoroutineScope(Dispatchers.IO)
-
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean>
         get() = _errorInputName
@@ -34,15 +29,20 @@ class ChangeNoteViewModel(application: Application) : AndroidViewModel(applicati
         get() = _shouldCloseScreen
 
 
-    fun saveNote(inputId: Int, inputText: String, inputPriority: Int) {
+    fun saveNote(
+        inputId: Int,
+        inputText: String,
+        inputPriority: Int,
+        inputState: Boolean
+    ) {
         val valid = validateInput(inputText)
         if (valid) {
-            scope.launch {
+            viewModelScope.launch {
                 val note = Note(
                     id = inputId,
                     text = inputText,
                     priority = inputPriority,
-//                date = inputDate
+                    isDone = inputState
                 )
                 addNoteUseCase.addNote(note)
                 finishWork()
@@ -53,7 +53,7 @@ class ChangeNoteViewModel(application: Application) : AndroidViewModel(applicati
 
 
     fun getNote(noteId: Int) {
-        scope.launch {
+        viewModelScope.launch {
             getNoteUseCase.getNote(noteId)
         }
     }
@@ -72,11 +72,7 @@ class ChangeNoteViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     private fun finishWork() {
-        _shouldCloseScreen.postValue(Unit)
+        _shouldCloseScreen.value = Unit
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        scope.cancel()
-    }
 }
