@@ -45,7 +45,7 @@ class NotesAdapter(
                     Log.d(
                         "NotesAdapter",
                         "color: ${context.getColor(R.color.low_priority_done)}"
-                                + "priority: ${note.priority}"
+                                + "priority: ${note.isDone}"
                     )
                 } else {
                     cvNote.setCardBackgroundColor(context.getColor(R.color.low_priority))
@@ -53,7 +53,7 @@ class NotesAdapter(
                     Log.d(
                         "NotesAdapter",
                         "color: ${context.getColor(R.color.low_priority_done)}"
-                                + "priority: ${note.priority}"
+                                + "priority: ${note.isDone}"
                     )
                 }
                 MEDIUM_PRIORITY -> if (note.isDone) {
@@ -62,7 +62,7 @@ class NotesAdapter(
                     Log.d(
                         "NotesAdapter",
                         "color: ${context.getColor(R.color.low_priority_done)}"
-                                + "priority: ${note.priority}"
+                                + "priority: ${note.isDone}"
                     )
                 } else {
                     cvNote.setCardBackgroundColor(context.getColor(R.color.medium_priority))
@@ -70,7 +70,7 @@ class NotesAdapter(
                     Log.d(
                         "NotesAdapter",
                         "color: ${context.getColor(R.color.low_priority_done)}"
-                                + "priority: ${note.priority}"
+                                + "priority: ${note.isDone}"
                     )
                 }
                 HIGH_PRIORITY -> if (note.isDone) {
@@ -79,7 +79,7 @@ class NotesAdapter(
                     Log.d(
                         "NotesAdapter",
                         "color: ${context.getColor(R.color.low_priority_done)}"
-                                + "priority: ${note.priority}"
+                                + "priority: ${note.isDone}"
                     )
                 } else {
                     cvNote.setCardBackgroundColor(context.getColor(R.color.high_priority))
@@ -87,11 +87,11 @@ class NotesAdapter(
                     Log.d(
                         "NotesAdapter",
                         "color: ${context.getColor(R.color.low_priority_done)}"
-                                + "priority: ${note.priority}"
+                                + "priority: ${note.isDone}"
                     )
                 }
 
-                else -> throw RuntimeException("Unknown priority : ${note.priority}")
+                else -> throw RuntimeException("Unknown priority : ${note.isDone}")
             }
         }
     }
