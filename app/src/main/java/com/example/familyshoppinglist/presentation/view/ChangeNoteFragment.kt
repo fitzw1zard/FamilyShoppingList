@@ -57,7 +57,7 @@ class ChangeNoteFragment : Fragment() {
                 argsNote.note?.id ?: 0,
                 binding.etText.text.toString(),
                 getPriority(),
-                false
+                argsNote.note?.isDone ?: false
             )
         }
     }
