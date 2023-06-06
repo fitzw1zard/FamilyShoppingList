@@ -44,22 +44,9 @@ class ChangeNoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addTextChangeListeners()
-        launchSaveMode()
         setupClickListeners()
         observeViewModel()
         editedNoteStatus()
-
-    }
-
-    private fun launchSaveMode() {
-        binding.buttonSave.setOnClickListener {
-            viewModel.saveNote(
-                argsNote.note?.id ?: 0,
-                binding.etText.text.toString(),
-                getPriority(),
-                argsNote.note?.isDone ?: false
-            )
-        }
     }
 
 
@@ -83,19 +70,32 @@ class ChangeNoteFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        binding.buttonUndo.setOnClickListener {
-            closeScreen()
+        with(binding) {
+            buttonSave.setOnClickListener {
+                viewModel.saveNote(
+                    inputId = argsNote.note?.id ?: 0,
+                    inputText = etText.text.toString(),
+                    inputPriority = getPriority(),
+                    inputState = argsNote.note?.isDone ?: false
+                )
+            }
+            buttonUndo.setOnClickListener {
+                closeScreen()
+            }
         }
 
     }
 
     private fun observeViewModel() {
-        viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            closeScreen()
-        }
-        viewModel.errorInputName.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.tilText.error = getString(R.string.error_empty_note)
+        with(viewModel) {
+
+            shouldCloseScreen.observe(viewLifecycleOwner) {
+                closeScreen()
+            }
+            errorInputName.observe(viewLifecycleOwner) {
+                if (it) {
+                    binding.tilText.error = getString(R.string.error_empty_note)
+                }
             }
         }
     }
