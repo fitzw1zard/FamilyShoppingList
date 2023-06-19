@@ -22,5 +22,7 @@ class NotesMapper {
     )
 
     fun mapDbModelListToEntityList(noteDbModelList: List<NoteDbModel>) =
-        noteDbModelList.map { mapDbModelToEntity(it) }
+        noteDbModelList.map {
+            mapDbModelToEntity(it)
+        }
 }

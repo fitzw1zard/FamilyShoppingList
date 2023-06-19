@@ -28,7 +28,6 @@ class NoteListRepositoryImpl(application: Application) : NoteListRepository {
         mapper.mapDbModelToEntity(notesDao.getNote(id))
 
 
-
     override fun getNotes(): LiveData<List<Note>> =
         MediatorLiveData<List<Note>>().apply {
             addSource(notesDao.getNotesList()) {

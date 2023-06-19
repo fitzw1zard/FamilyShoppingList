@@ -14,17 +14,16 @@ import com.example.familyshoppinglist.utils.HIGH_PRIORITY
 import com.example.familyshoppinglist.utils.LOW_PRIORITY
 import com.example.familyshoppinglist.utils.MEDIUM_PRIORITY
 
-class NotesAdapter(
-    private val context: Context
-) : ListAdapter<Note, NotesAdapter.NotesViewHolder>(
+class NotesAdapter(private val context: Context) : ListAdapter<Note, NotesAdapter.NotesViewHolder>(
     object : DiffUtil.ItemCallback<Note>() {
-    override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
-        return oldItem.id == newItem.id
-    }
-    override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-        return oldItem == newItem
-    }
-}) {
+        override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
+            return oldItem == newItem
+        }
+    }) {
 
     var onNoteLongClickListener: ((Note) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
@@ -39,11 +38,10 @@ class NotesAdapter(
 
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val note = getItem(position)
-        val binding = holder.binding
         holder.bind(note)
     }
 
-    inner class NotesViewHolder(val binding: NoteItemBinding) :
+    inner class NotesViewHolder(private val binding: NoteItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(note: Note) {
