@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.familyshoppinglist.data.NoteListRepositoryImpl
 import com.example.familyshoppinglist.domain.entity.Note
@@ -11,14 +12,13 @@ import com.example.familyshoppinglist.domain.usecases.AddNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.EditNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.GetNoteUseCase
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ChangeNoteViewModel(application: Application) : AndroidViewModel(application) {
+class ChangeNoteViewModel @Inject constructor(
+    private val addNoteUseCase: AddNoteUseCase,
+    private val getNoteUseCase: GetNoteUseCase
+) : ViewModel() {
 
-    private val repository = NoteListRepositoryImpl(application)
-
-    private val addNoteUseCase = AddNoteUseCase(repository)
-    private val editNoteUseCase = EditNoteUseCase(repository)
-    private val getNoteUseCase = GetNoteUseCase(repository)
 
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean>
@@ -50,7 +50,6 @@ class ChangeNoteViewModel(application: Application) : AndroidViewModel(applicati
 
         }
     }
-
 
     fun getNote(noteId: Int) {
         viewModelScope.launch {

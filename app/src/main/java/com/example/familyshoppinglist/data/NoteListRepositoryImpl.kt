@@ -6,11 +6,12 @@ import androidx.lifecycle.MediatorLiveData
 
 import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.domain.repository.NoteListRepository
+import javax.inject.Inject
 
-class NoteListRepositoryImpl(application: Application) : NoteListRepository {
-
-    private val notesDao = AppDatabase.getInstance(application).notesDao()
-    private val mapper = NotesMapper()
+class NoteListRepositoryImpl @Inject constructor(
+    private val notesDao: NotesDao,
+    private val mapper: NotesMapper
+) : NoteListRepository {
 
     override suspend fun addNote(note: Note) {
         notesDao.addNote(mapper.mapEntityToDbModel(note))

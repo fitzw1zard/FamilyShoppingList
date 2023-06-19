@@ -1,5 +1,6 @@
 package com.example.familyshoppinglist.presentation.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,23 +10,38 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.familyshoppinglist.MainApp
 import com.example.familyshoppinglist.databinding.FragmentNotesBinding
 import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.presentation.adapter.NotesAdapter
 import com.example.familyshoppinglist.presentation.viewmodel.NotesViewModel
+import com.example.familyshoppinglist.presentation.viewmodel.ViewModelFactory
+import javax.inject.Inject
 
 class NotesFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var notesAdapter: NotesAdapter
 
     private val viewModel: NotesViewModel by lazy {
-        ViewModelProvider(this)[NotesViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[NotesViewModel::class.java]
     }
+
+    private val component by lazy {
+        (requireActivity().application as MainApp).component
+    }
+
 
     private var _binding: FragmentNotesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("FragmentNotesBinding is null")
 
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
