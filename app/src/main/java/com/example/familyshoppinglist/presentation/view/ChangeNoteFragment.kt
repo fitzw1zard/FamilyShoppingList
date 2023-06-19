@@ -1,5 +1,6 @@
 package com.example.familyshoppinglist.presentation.view
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,28 +11,43 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.familyshoppinglist.MainApp
 import com.example.familyshoppinglist.R
 import com.example.familyshoppinglist.databinding.FragmentChangeNoteBinding
 import com.example.familyshoppinglist.presentation.viewmodel.ChangeNoteViewModel
+import com.example.familyshoppinglist.presentation.viewmodel.NotesViewModel
+import com.example.familyshoppinglist.presentation.viewmodel.ViewModelFactory
 import com.example.familyshoppinglist.utils.ERROR_PRIORITY
 import com.example.familyshoppinglist.utils.HIGH_PRIORITY
 import com.example.familyshoppinglist.utils.LOW_PRIORITY
 import com.example.familyshoppinglist.utils.MEDIUM_PRIORITY
+import javax.inject.Inject
 
 
 class ChangeNoteFragment : Fragment() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     private val argsNote by navArgs<ChangeNoteFragmentArgs>()
 
     private var _binding: FragmentChangeNoteBinding? = null
-
-    private val viewModel: ChangeNoteViewModel by lazy {
-        ViewModelProvider(this)[ChangeNoteViewModel::class.java]
-    }
-
     private val binding
         get() = _binding ?: throw IllegalStateException("FragmentChangeNoteBinding is null")
 
+
+    private val viewModel: ChangeNoteViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[ChangeNoteViewModel::class.java]
+    }
+
+    private val component by lazy {
+        (requireActivity().application as MainApp).component
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
