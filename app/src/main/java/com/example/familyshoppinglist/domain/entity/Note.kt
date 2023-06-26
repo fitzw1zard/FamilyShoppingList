@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class Note(
     var id: Int = UNDEFINED_ID,
     val text: String,
-    val date: String = UNDEFINED_DATE,
+    var date: String = UNDEFINED_DATE,
     val priority: Int,
     val isDone: Boolean
 ) : Parcelable {
