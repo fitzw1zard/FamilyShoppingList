@@ -1,6 +1,9 @@
 package com.example.familyshoppinglist.data
 
+import android.icu.text.SimpleDateFormat
 import com.example.familyshoppinglist.domain.entity.Note
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 class NotesMapper @Inject constructor() {
@@ -17,7 +20,7 @@ class NotesMapper @Inject constructor() {
     fun mapDbModelToEntity(noteDbModel: NoteDbModel) = Note(
         id = noteDbModel.id,
         text = noteDbModel.text,
-        date = noteDbModel.date,
+        date = formatDate(noteDbModel.date),
         priority = noteDbModel.priority,
         isDone = noteDbModel.isDone
     )
@@ -26,5 +29,15 @@ class NotesMapper @Inject constructor() {
         noteDbModelList.map {
             mapDbModelToEntity(it)
         }
+
+    private fun formatDate(dateString: String): String {
+        val fullDateFormatter = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.getDefault())
+        val date = fullDateFormatter.parse(dateString)
+        val dateFormatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+        val timeFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val formattedDate = dateFormatter.format(date)
+        val formattedTime = timeFormatter.format(date)
+        return "$formattedDate в $formattedTime"
+    }
 
 }

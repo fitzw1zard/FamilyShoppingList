@@ -11,5 +11,4 @@ data class NoteDbModel(
     val date: String,
     val priority: Int,
     val isDone: Boolean
-
 )

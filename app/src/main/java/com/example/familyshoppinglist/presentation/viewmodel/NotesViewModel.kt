@@ -1,5 +1,6 @@
 package com.example.familyshoppinglist.presentation.viewmodel
 
+import android.icu.text.SimpleDateFormat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,9 @@ import com.example.familyshoppinglist.domain.usecases.DeleteNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.EditNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.GetNoteListUseCase
 import kotlinx.coroutines.launch
+import java.util.Date
+import java.util.Locale
+
 import javax.inject.Inject
 
 class NotesViewModel @Inject constructor(
@@ -83,9 +87,9 @@ class NotesViewModel @Inject constructor(
         return result
     }
 
+
     private fun getDate(): String {
-        val date = java.util.Calendar.getInstance().time
-        return date.toString()
+        return java.util.Calendar.getInstance().time.toString()
     }
 
     private fun finishWork() {
