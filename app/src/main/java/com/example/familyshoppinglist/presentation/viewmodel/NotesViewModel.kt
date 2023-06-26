@@ -22,8 +22,6 @@ class NotesViewModel @Inject constructor(
     val notes = getNoteListUseCase.getNoteList()
 
 
-
-
     fun deleteNote(note: Note) {
         viewModelScope.launch {
             deleteNoteUseCase.deleteNote(note)
@@ -40,7 +38,10 @@ class NotesViewModel @Inject constructor(
 
     fun changeNoteState(note: Note) {
         viewModelScope.launch {
-            val changedNote = note.copy(isDone = note.isDone.not())
+            val changedNote = note.copy(
+                isDone = note.isDone.not(),
+                date = getDate()
+            )
             editNoteUseCase.editNote(changedNote)
         }
     }
