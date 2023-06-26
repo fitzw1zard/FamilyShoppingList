@@ -7,13 +7,12 @@ import kotlinx.android.parcel.Parcelize
 data class Note(
     var id: Int = UNDEFINED_ID,
     val text: String,
-    var date: String = UNDEFINED_DATE,
+    val date: String,
     val priority: Int,
     val isDone: Boolean
 ) : Parcelable {
     companion object {
         const val UNDEFINED_ID = 0
-        const val UNDEFINED_DATE =  "01.01.1991 00:00"
     }
 }
 
