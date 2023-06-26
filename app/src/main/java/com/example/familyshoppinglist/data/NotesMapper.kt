@@ -26,4 +26,5 @@ class NotesMapper @Inject constructor() {
         noteDbModelList.map {
             mapDbModelToEntity(it)
         }
+
 }

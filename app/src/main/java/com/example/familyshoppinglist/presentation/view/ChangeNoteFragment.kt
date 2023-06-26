@@ -85,6 +85,11 @@ class ChangeNoteFragment : Fragment() {
         }
     }
 
+    private fun getDate(): String {
+        val date = java.util.Calendar.getInstance().time
+        return date.toString()
+    }
+
     private fun setupClickListeners() {
         with(binding) {
             buttonSave.setOnClickListener {
@@ -92,7 +97,8 @@ class ChangeNoteFragment : Fragment() {
                     inputId = argsNote.note?.id ?: 0,
                     inputText = etText.text.toString(),
                     inputPriority = getPriority(),
-                    inputState = argsNote.note?.isDone ?: false
+                    inputState = argsNote.note?.isDone ?: false,
+                    inputDate = getDate ()
                 )
             }
             buttonUndo.setOnClickListener {

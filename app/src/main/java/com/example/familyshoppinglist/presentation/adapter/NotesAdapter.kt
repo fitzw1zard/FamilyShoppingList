@@ -45,34 +45,37 @@ class NotesAdapter(private val context: Context) : ListAdapter<Note, NotesAdapte
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(note: Note) {
-            binding.tvNote.text = note.text
             with(binding) {
-                when (note.priority) {
-                    LOW_PRIORITY -> if (note.isDone) {
-                        cvNote.setCardBackgroundColor(context.getColor(R.color.low_priority_done))
-                        cvNote.cardElevation = 0f
-                    } else {
-                        cvNote.setCardBackgroundColor(context.getColor(R.color.low_priority))
-                        cvNote.cardElevation = 4f
-                    }
+                with(note) {
+                    tvNote.text = text
+                    tvDate.text = date
+                    when (priority) {
+                        LOW_PRIORITY -> if (isDone) {
+                            cvNote.setCardBackgroundColor(context.getColor(R.color.low_priority_done))
+                            cvNote.cardElevation = 0f
+                        } else {
+                            cvNote.setCardBackgroundColor(context.getColor(R.color.low_priority))
+                            cvNote.cardElevation = 4f
+                        }
 
-                    MEDIUM_PRIORITY -> if (note.isDone) {
-                        cvNote.setCardBackgroundColor(context.getColor(R.color.medium_priority_done))
-                        cvNote.cardElevation = 0f
-                    } else {
-                        cvNote.setCardBackgroundColor(context.getColor(R.color.medium_priority))
-                        cvNote.cardElevation = 4f
-                    }
+                        MEDIUM_PRIORITY -> if (isDone) {
+                            cvNote.setCardBackgroundColor(context.getColor(R.color.medium_priority_done))
+                            cvNote.cardElevation = 0f
+                        } else {
+                            cvNote.setCardBackgroundColor(context.getColor(R.color.medium_priority))
+                            cvNote.cardElevation = 4f
+                        }
 
-                    HIGH_PRIORITY -> if (note.isDone) {
-                        cvNote.setCardBackgroundColor(context.getColor(R.color.high_priority_done))
-                        cvNote.cardElevation = 0f
-                    } else {
-                        cvNote.setCardBackgroundColor(context.getColor(R.color.high_priority))
-                        cvNote.cardElevation = 4f
-                    }
+                        HIGH_PRIORITY -> if (isDone) {
+                            cvNote.setCardBackgroundColor(context.getColor(R.color.high_priority_done))
+                            cvNote.cardElevation = 0f
+                        } else {
+                            cvNote.setCardBackgroundColor(context.getColor(R.color.high_priority))
+                            cvNote.cardElevation = 4f
+                        }
 
-                    else -> throw RuntimeException("Unknown priority : ${note.priority}")
+                        else -> throw RuntimeException("Unknown priority : ${note.priority}")
+                    }
                 }
                 root.setOnLongClickListener() {
                     onNoteLongClickListener?.invoke(note)

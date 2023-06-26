@@ -33,7 +33,8 @@ class ChangeNoteViewModel @Inject constructor(
         inputId: Int,
         inputText: String,
         inputPriority: Int,
-        inputState: Boolean
+        inputState: Boolean,
+        inputDate: String
     ) {
         val valid = validateInput(inputText)
         if (valid) {
@@ -42,6 +43,7 @@ class ChangeNoteViewModel @Inject constructor(
                     id = inputId,
                     text = inputText,
                     priority = inputPriority,
+                    date = inputDate,
                     isDone = inputState
                 )
                 addNoteUseCase.addNote(note)
