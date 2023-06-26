@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "930645950366",
+    "firebase_url": "https://p2pnotes-5b363-default-rtdb.firebaseio.com",
+    "project_id": "p2pnotes-5b363",
+    "storage_bucket": "p2pnotes-5b363.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930645950366:android:f0183b8f6988152e98208f",
+        "android_client_info": {
+          "package_name": "com.example.familyshoppinglist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930645950366-dcmn4po6kl6taq62e2vkdcp7muuob3u8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBY9KQ2eMFVOuVeASR_6GkVJP1uHA1D7_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930645950366-dcmn4po6kl6taq62e2vkdcp7muuob3u8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
