@@ -14,7 +14,6 @@ import androidx.navigation.fragment.navArgs
 import com.example.familyshoppinglist.MainApp
 import com.example.familyshoppinglist.R
 import com.example.familyshoppinglist.databinding.FragmentChangeNoteBinding
-import com.example.familyshoppinglist.presentation.viewmodel.ChangeNoteViewModel
 import com.example.familyshoppinglist.presentation.viewmodel.NotesViewModel
 import com.example.familyshoppinglist.presentation.viewmodel.ViewModelFactory
 import com.example.familyshoppinglist.utils.ERROR_PRIORITY
@@ -36,8 +35,8 @@ class ChangeNoteFragment : Fragment() {
         get() = _binding ?: throw IllegalStateException("FragmentChangeNoteBinding is null")
 
 
-    private val viewModel: ChangeNoteViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[ChangeNoteViewModel::class.java]
+    private val viewModel: NotesViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[NotesViewModel::class.java]
     }
 
     private val component by lazy {
@@ -85,10 +84,6 @@ class ChangeNoteFragment : Fragment() {
         }
     }
 
-    private fun getDate(): String {
-        val date = java.util.Calendar.getInstance().time
-        return date.toString()
-    }
 
     private fun setupClickListeners() {
         with(binding) {
@@ -98,7 +93,6 @@ class ChangeNoteFragment : Fragment() {
                     inputText = etText.text.toString(),
                     inputPriority = getPriority(),
                     inputState = argsNote.note?.isDone ?: false,
-                    inputDate = getDate ()
                 )
             }
             buttonUndo.setOnClickListener {
