@@ -101,7 +101,7 @@ class NotesAdapter(private val context: Context) : ListAdapter<Note, NotesAdapte
                         else -> throw RuntimeException("Unknown priority : ${note.priority}")
                     }
                 }
-                root.setOnLongClickListener() {
+                root.setOnLongClickListener {
                     onNoteLongClickListener?.invoke(note)
                     true
                 }
