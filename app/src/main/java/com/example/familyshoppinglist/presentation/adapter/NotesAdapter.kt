@@ -1,7 +1,6 @@
 package com.example.familyshoppinglist.presentation.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -23,7 +22,8 @@ class NotesAdapter(private val context: Context) : ListAdapter<Note, NotesAdapte
         override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
             return oldItem == newItem
         }
-    }) {
+    }
+) {
 
     var onNoteLongClickListener: ((Note) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
@@ -51,26 +51,50 @@ class NotesAdapter(private val context: Context) : ListAdapter<Note, NotesAdapte
                     tvDate.text = date
                     when (priority) {
                         LOW_PRIORITY -> if (isDone) {
-                            cvNote.setCardBackgroundColor(context.getColor(R.color.low_priority_done))
+                            cvNote.setCardBackgroundColor(
+                                context.getColor(
+                                    R.color.low_priority_done
+                                )
+                            )
                             cvNote.cardElevation = 0f
                         } else {
-                            cvNote.setCardBackgroundColor(context.getColor(R.color.low_priority))
+                            cvNote.setCardBackgroundColor(
+                                context.getColor(
+                                    R.color.low_priority
+                                )
+                            )
                             cvNote.cardElevation = 4f
                         }
 
                         MEDIUM_PRIORITY -> if (isDone) {
-                            cvNote.setCardBackgroundColor(context.getColor(R.color.medium_priority_done))
+                            cvNote.setCardBackgroundColor(
+                                context.getColor(
+                                    R.color.medium_priority_done
+                                )
+                            )
                             cvNote.cardElevation = 0f
                         } else {
-                            cvNote.setCardBackgroundColor(context.getColor(R.color.medium_priority))
+                            cvNote.setCardBackgroundColor(
+                                context.getColor(
+                                    R.color.medium_priority
+                                )
+                            )
                             cvNote.cardElevation = 4f
                         }
 
                         HIGH_PRIORITY -> if (isDone) {
-                            cvNote.setCardBackgroundColor(context.getColor(R.color.high_priority_done))
+                            cvNote.setCardBackgroundColor(
+                                context.getColor(
+                                    R.color.high_priority_done
+                                )
+                            )
                             cvNote.cardElevation = 0f
                         } else {
-                            cvNote.setCardBackgroundColor(context.getColor(R.color.high_priority))
+                            cvNote.setCardBackgroundColor(
+                                context.getColor(
+                                    R.color.high_priority
+                                )
+                            )
                             cvNote.cardElevation = 4f
                         }
 
