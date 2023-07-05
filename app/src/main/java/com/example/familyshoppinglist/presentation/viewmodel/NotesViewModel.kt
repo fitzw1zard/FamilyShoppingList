@@ -19,14 +19,7 @@ class NotesViewModel @Inject constructor(
     private val editNoteUseCase: EditNoteUseCase
 ) : ViewModel() {
 
-    init {
-        viewModelScope.launch {
-            getNoteListUseCase.getNotes()
-        }
-    }
-
-    val notes =
-        getNoteListUseCase.getNotes()
+    val notes = getNoteListUseCase.getNotes()
 
 
     fun deleteNote(note: Note) {
