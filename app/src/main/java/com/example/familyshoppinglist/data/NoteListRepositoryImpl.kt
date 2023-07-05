@@ -30,7 +30,6 @@ class NoteListRepositoryImpl @Inject constructor(
 
     override fun getNotes(): Flow<List<Note>> =
         notesDao.getNotesList().map {
-            Log.d("getNotes", it.toString())
             mapper.mapDbModelListToEntityList(it)
         }
 }
