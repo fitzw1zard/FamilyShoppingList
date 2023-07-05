@@ -1,6 +1,5 @@
 package com.example.familyshoppinglist.data
 
-import android.util.Log
 import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.domain.repository.NoteListRepository
 import kotlinx.coroutines.flow.Flow
