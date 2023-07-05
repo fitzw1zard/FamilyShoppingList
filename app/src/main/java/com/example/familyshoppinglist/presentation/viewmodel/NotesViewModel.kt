@@ -9,9 +9,7 @@ import com.example.familyshoppinglist.domain.usecases.AddNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.DeleteNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.EditNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.GetNoteListUseCase
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
-
 import javax.inject.Inject
 
 class NotesViewModel @Inject constructor(

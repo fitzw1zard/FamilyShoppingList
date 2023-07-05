@@ -19,7 +19,6 @@ import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.presentation.adapter.NotesAdapter
 import com.example.familyshoppinglist.presentation.viewmodel.NotesViewModel
 import com.example.familyshoppinglist.presentation.viewmodel.ViewModelFactory
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

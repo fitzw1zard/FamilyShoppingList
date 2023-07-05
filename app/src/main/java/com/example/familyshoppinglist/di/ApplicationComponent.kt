@@ -1,7 +1,6 @@
 package com.example.familyshoppinglist.di
 
 import android.app.Application
-import com.example.familyshoppinglist.MainActivity
 import com.example.familyshoppinglist.presentation.view.ChangeNoteFragment
 import com.example.familyshoppinglist.presentation.view.NotesFragment
 import dagger.BindsInstance

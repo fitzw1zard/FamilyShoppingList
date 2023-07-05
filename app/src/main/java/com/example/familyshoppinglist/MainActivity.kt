@@ -1,9 +1,7 @@
 package com.example.familyshoppinglist
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.app.AppCompatActivity
 import com.example.familyshoppinglist.presentation.viewmodel.NotesViewModel
 
 class MainActivity : AppCompatActivity() {
