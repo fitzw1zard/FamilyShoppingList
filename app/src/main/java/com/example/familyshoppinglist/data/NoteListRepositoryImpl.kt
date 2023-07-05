@@ -1,11 +1,10 @@
 package com.example.familyshoppinglist.data
 
-import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-
+import android.util.Log
 import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.domain.repository.NoteListRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class NoteListRepositoryImpl @Inject constructor(
@@ -29,11 +28,12 @@ class NoteListRepositoryImpl @Inject constructor(
         mapper.mapDbModelToEntity(notesDao.getNote(id))
 
 
-    override fun getNotes(): LiveData<List<Note>> =
-        MediatorLiveData<List<Note>>().apply {
-            addSource(notesDao.getNotesList()) {
-                value = mapper.mapDbModelListToEntityList(it)
-            }
+    override fun getNotes(): Flow<List<Note>> =
+        notesDao.getNotesList().map {
+            Log.d("getNotes", it.toString())
+            mapper.mapDbModelListToEntityList(it)
         }
-
 }
+
+
+

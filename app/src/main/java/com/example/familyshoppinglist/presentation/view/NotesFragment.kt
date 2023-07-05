@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +19,8 @@ import com.example.familyshoppinglist.domain.entity.Note
 import com.example.familyshoppinglist.presentation.adapter.NotesAdapter
 import com.example.familyshoppinglist.presentation.viewmodel.NotesViewModel
 import com.example.familyshoppinglist.presentation.viewmodel.ViewModelFactory
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NotesFragment : Fragment() {
@@ -63,9 +68,13 @@ class NotesFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.notes.observeForever {
-            notesAdapter.submitList(it)
-        }
+       lifecycleScope.launch {
+           repeatOnLifecycle(Lifecycle.State.RESUMED) {
+               viewModel.notes.collect {
+                   notesAdapter.submitList(it)
+               }
+           }
+       }
     }
 
     private fun setupRecyclerView() {

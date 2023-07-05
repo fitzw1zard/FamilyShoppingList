@@ -2,6 +2,7 @@ package com.example.familyshoppinglist.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.example.familyshoppinglist.domain.entity.Note
+import kotlinx.coroutines.flow.Flow
 
 interface NoteListRepository {
 
@@ -13,7 +14,7 @@ interface NoteListRepository {
 
     suspend fun getNote (id: Int): Note
 
-    fun getNotes (): LiveData<List<Note>>
+    fun getNotes (): Flow<List<Note>>
 
 
 }
