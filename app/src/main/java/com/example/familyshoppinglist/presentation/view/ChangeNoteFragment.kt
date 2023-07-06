@@ -8,7 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.familyshoppinglist.MainApp
@@ -20,6 +23,7 @@ import com.example.familyshoppinglist.utils.ERROR_PRIORITY
 import com.example.familyshoppinglist.utils.HIGH_PRIORITY
 import com.example.familyshoppinglist.utils.LOW_PRIORITY
 import com.example.familyshoppinglist.utils.MEDIUM_PRIORITY
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -103,18 +107,25 @@ class ChangeNoteFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        with(viewModel) {
 
-            shouldCloseScreen.observe(viewLifecycleOwner) {
-                closeScreen()
-            }
-            errorInputName.observe(viewLifecycleOwner) {
-                if (it) {
-                    binding.tilText.error = getString(R.string.error_empty_note)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.errorInputFlow.collect {
+                    if (it) {
+                        binding.tilText.error = getString(R.string.error_empty_note)
+                    }
                 }
             }
         }
-    }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.shouldCloseEditScreenFlow.collect {
+                        closeScreen()
+                    }
+                }
+            }
+        }
 
 
     private fun addTextChangeListeners() {

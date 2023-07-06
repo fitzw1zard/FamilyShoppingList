@@ -9,6 +9,7 @@ import com.example.familyshoppinglist.domain.usecases.AddNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.DeleteNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.EditNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.GetNoteListUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,20 +22,15 @@ class NotesViewModel @Inject constructor(
 
     val notes = getNoteListUseCase.getNotes()
 
-
     fun deleteNote(note: Note) {
         viewModelScope.launch {
             deleteNoteUseCase.deleteNote(note)
         }
     }
 
-    private val _errorInputName = MutableLiveData<Boolean>()
-    val errorInputName: LiveData<Boolean>
-        get() = _errorInputName
+    val errorInputFlow = MutableSharedFlow<Boolean>()
 
-    private val _shouldCloseScreen = MutableLiveData<Unit>()
-    val shouldCloseScreen: LiveData<Unit>
-        get() = _shouldCloseScreen
+    val shouldCloseEditScreenFlow = MutableSharedFlow<Unit>()
 
     fun changeNoteState(note: Note) {
         viewModelScope.launch {
@@ -71,13 +67,17 @@ class NotesViewModel @Inject constructor(
     }
 
     fun resetErrorInputName() {
-        _errorInputName.value = false
+        viewModelScope.launch {
+            errorInputFlow.emit(false)
+        }
     }
 
     private fun validateInput(inputText: String): Boolean {
         var result = true
         if (inputText.isBlank()) {
-            _errorInputName.value = true
+            viewModelScope.launch {
+                errorInputFlow.emit(inputText.isBlank())
+            }
             result = false
         }
         return result
@@ -89,7 +89,9 @@ class NotesViewModel @Inject constructor(
     }
 
     private fun finishWork() {
-        _shouldCloseScreen.value = Unit
+        viewModelScope.launch {
+            shouldCloseEditScreenFlow.emit(Unit)
+        }
     }
 
 }
