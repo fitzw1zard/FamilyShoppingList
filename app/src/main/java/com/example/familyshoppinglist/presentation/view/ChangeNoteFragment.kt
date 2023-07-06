@@ -121,11 +121,13 @@ class ChangeNoteFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.shouldCloseEditScreenFlow.collect {
+                    if (it) {
                         closeScreen()
                     }
                 }
             }
         }
+    }
 
 
     private fun addTextChangeListeners() {
