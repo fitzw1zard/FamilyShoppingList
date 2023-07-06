@@ -8,6 +8,7 @@ import com.example.familyshoppinglist.domain.usecases.DeleteNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.EditNoteUseCase
 import com.example.familyshoppinglist.domain.usecases.GetNoteListUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,9 +27,11 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    val errorInputFlow = MutableSharedFlow<Boolean>()
+    private val _errorInputFlow = MutableSharedFlow<Boolean>()
+    val errorInputFlow = _errorInputFlow.asSharedFlow()
 
-    val shouldCloseEditScreenFlow = MutableSharedFlow<Unit>()
+    private val _shouldCloseEditScreenFlow = MutableSharedFlow<Unit>()
+    val shouldCloseEditScreenFlow = _shouldCloseEditScreenFlow.asSharedFlow()
 
     fun changeNoteState(note: Note) {
         viewModelScope.launch {
@@ -66,7 +69,7 @@ class NotesViewModel @Inject constructor(
 
     fun resetErrorInputName() {
         viewModelScope.launch {
-            errorInputFlow.emit(false)
+            _errorInputFlow.emit(false)
         }
     }
 
@@ -74,7 +77,7 @@ class NotesViewModel @Inject constructor(
         var result = true
         if (inputText.isBlank()) {
             viewModelScope.launch {
-                errorInputFlow.emit(inputText.isBlank())
+                _errorInputFlow.emit(inputText.isBlank())
             }
             result = false
         }
@@ -88,7 +91,7 @@ class NotesViewModel @Inject constructor(
 
     private fun finishWork() {
         viewModelScope.launch {
-            shouldCloseEditScreenFlow.emit(Unit)
+            _shouldCloseEditScreenFlow.emit(Unit)
         }
     }
 
