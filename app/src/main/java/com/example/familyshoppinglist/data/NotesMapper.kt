@@ -37,7 +37,7 @@ class NotesMapper @Inject constructor() {
         val timeFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
         val formattedDate = dateFormatter.format(date)
         val formattedTime = timeFormatter.format(date)
-        return "$formattedDate в $formattedTime"
+        return "$formattedDate $formattedTime"
     }
 
 }
