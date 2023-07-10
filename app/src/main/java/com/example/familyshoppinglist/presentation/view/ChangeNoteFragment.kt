@@ -110,7 +110,7 @@ class ChangeNoteFragment : Fragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.errorInputFlow.collect {
+                viewModel.errorInput.collect {
                     if (it) {
                         binding.tilText.error = getString(R.string.error_empty_note)
                     }
@@ -120,7 +120,7 @@ class ChangeNoteFragment : Fragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.shouldCloseEditScreenFlow.collect {
+                viewModel.shouldCloseEditScreen.collect {
                     if (it) {
                         closeScreen()
                     }

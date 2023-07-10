@@ -21,28 +21,11 @@ class NotesViewModel @Inject constructor(
 
     val notes = getNoteListUseCase.getNotes()
 
-    fun deleteNote(note: Note) {
-        viewModelScope.launch {
-            deleteNoteUseCase.deleteNote(note)
-        }
-    }
+    private val _errorInput = MutableStateFlow(false)
+    val errorInput = _errorInput.asSharedFlow()
 
-    private val _errorInputFlow = MutableStateFlow<Boolean>(false)
-    val errorInputFlow = _errorInputFlow.asSharedFlow()
-
-    private val _shouldCloseEditScreenFlow = MutableStateFlow<Boolean>(false)
-    val shouldCloseEditScreenFlow = _shouldCloseEditScreenFlow.asSharedFlow()
-
-    fun changeNoteState(note: Note) {
-        viewModelScope.launch {
-            val changedNote = note.copy(
-                isDone = note.isDone.not(),
-                date = getDate()
-            )
-            editNoteUseCase.editNote(changedNote)
-        }
-    }
-
+    private val _shouldCloseEditScreen = MutableStateFlow(false)
+    val shouldCloseEditScreen = _shouldCloseEditScreen.asSharedFlow()
 
     fun saveNote(
         inputId: Int,
@@ -67,14 +50,30 @@ class NotesViewModel @Inject constructor(
         }
     }
 
+    fun changeNoteState(note: Note) {
+        viewModelScope.launch {
+            val changedNote = note.copy(
+                isDone = note.isDone.not(),
+                date = getDate()
+            )
+            editNoteUseCase.editNote(changedNote)
+        }
+    }
+
+    fun deleteNote(note: Note) {
+        viewModelScope.launch {
+            deleteNoteUseCase.deleteNote(note)
+        }
+    }
+
     fun resetErrorInputName() {
-        _errorInputFlow.value = false
+        _errorInput.value = false
     }
 
     private fun validateInput(inputText: String): Boolean {
         var result = true
         if (inputText.isBlank()) {
-                _errorInputFlow.value = inputText.isBlank()
+                _errorInput.value = inputText.isBlank()
             result = false
         }
         return result
@@ -86,7 +85,7 @@ class NotesViewModel @Inject constructor(
     }
 
     private fun finishWork() {
-        _shouldCloseEditScreenFlow.value = true
+        _shouldCloseEditScreen.value = true
     }
 
 }
